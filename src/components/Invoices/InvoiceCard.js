@@ -105,7 +105,7 @@ class InvoiceCard extends React.Component {
         <CardHeader
           avatar={
             <Avatar className={classes.avatar}>
-              <Tooltip title={category} aria-label="Add">{this.displayIcon(category)}</Tooltip>
+              <Tooltip title={category} aria-label={category}>{this.displayIcon(category)}</Tooltip>
             </Avatar>
           }
           action={
