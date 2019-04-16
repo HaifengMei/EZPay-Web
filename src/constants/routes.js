@@ -1,0 +1,10 @@
+export const LANDING = '/';
+export const SIGN_UP = '/signup';
+export const SIGN_IN = '/signin';
+export const HOME = '/home';
+export const ACCOUNT = '/account';
+export const PASSWORD_FORGET = '/pw-forget';
+export const REPORTS = '/reports';
+export const INVOICES = '/invoices';
+export const NEW_INVOICE = '/invoices/new';
+export const TRANSACTIONS = '/transactions';
