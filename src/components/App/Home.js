@@ -32,6 +32,7 @@ import TransactionIcon from "@material-ui/icons/LocalAtm";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import InvoiceForm from "../Invoices/InvoiceForm";
 import { withRouter } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const drawerWidth = 240;
 
@@ -118,6 +119,14 @@ const Features = [
   }
 ];
 
+const SubFeeatures = [
+  {
+    name: "Account",
+    path: ROUTES.ACCOUNT,
+    icon: <AccountIcon />
+  }
+]
+
 class HomeBase extends React.Component {
   state = {
     open: false
@@ -185,27 +194,29 @@ class HomeBase extends React.Component {
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
-                <ChevronLeftIcon />
-              )}
+                  <ChevronLeftIcon />
+                )}
             </IconButton>
           </div>
           <Divider />
           <List>
             {Features.map((item, index) => (
               <ListItem component={Link} to={item.path} key={item.name}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <Tooltip title={item.name} aria-label={item.name} >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                </Tooltip>
                 <ListItemText primary={item.name} />
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            {["Account"].map((text, index) => (
-              <ListItem component={Link} to={ROUTES.ACCOUNT} key={text}>
-                <ListItemIcon>
-                  <AccountIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          {SubFeeatures.map((item, index) => (
+              <ListItem component={Link} to={item.path} key={item.name}>
+                <Tooltip title={item.name} aria-label={item.name} >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                </Tooltip>
+                <ListItemText primary={item.name} />
               </ListItem>
             ))}
           </List>
