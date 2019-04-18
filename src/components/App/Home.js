@@ -132,10 +132,6 @@ class HomeBase extends React.Component {
     open: false
   };
 
-  componentDidMount() {
-    this.props.history.push(ROUTES.INVOICES);
-  }
-
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
