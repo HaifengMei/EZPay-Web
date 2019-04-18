@@ -113,7 +113,7 @@ class InvoiceCard extends React.Component {
               <MoreVertIcon />
             </IconButton>
           }
-          title={this.truncate(title,50)}
+          title={this.truncate(title,25)}
           subheader={`Updated: ${moment(lastUpdated).format('LL')}`}
         />
         <CardMedia className={classes.media} image={img} title={title} />

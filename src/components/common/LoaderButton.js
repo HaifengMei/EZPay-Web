@@ -27,7 +27,7 @@ const styles = theme => ({
 class CircularIntegration extends React.Component {
 
     render() {
-        const { loading, title, className, color, variant, type, fullWidth = false } = this.props
+        const { disabled, loading, title, className, color, variant, type, fullWidth = false } = this.props
         const { classes } = this.props;
 
         return (
@@ -37,7 +37,7 @@ class CircularIntegration extends React.Component {
                         variant={variant}
                         color={color}
                         className={className}
-                        disabled={loading}
+                        disabled={loading || disabled}
                         type={type}
                         fullWidth={fullWidth}
                     >
