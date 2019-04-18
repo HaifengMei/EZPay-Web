@@ -24,6 +24,7 @@ import LocalShopping from "@material-ui/icons/LocalGroceryStore";
 import QRCode from "qrcode";
 import { teal } from "@material-ui/core/colors";
 import moment from 'moment'
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   card: {
@@ -51,7 +52,7 @@ const styles = theme => ({
   },
   qrcode: {
     margin: -10,
-    
+    float:'right'
   }
 });
 
@@ -61,15 +62,6 @@ class InvoiceCard extends React.Component {
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-
-  // generateQR = async content => {
-  //   try {
-  //     const src = await QRCode.toDataURL(JSON.stringify(content));
-  //     return <img src={src} />;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   async componentDidMount() {
     try {
@@ -97,6 +89,13 @@ class InvoiceCard extends React.Component {
     }
   }
 
+  truncate(string, length) {
+    if(string.length > length){
+      return `${string.substring(0, length)}...`
+    }
+    return string
+  }
+
   render() {
     const { classes, invoice } = this.props;
     const { category, title, lastUpdated, description, id, img, price, location } = invoice;
@@ -106,7 +105,7 @@ class InvoiceCard extends React.Component {
         <CardHeader
           avatar={
             <Avatar className={classes.avatar}>
-              {this.displayIcon(category)}
+              <Tooltip title={category} aria-label={category}>{this.displayIcon(category)}</Tooltip>
             </Avatar>
           }
           action={
@@ -114,13 +113,13 @@ class InvoiceCard extends React.Component {
               <MoreVertIcon />
             </IconButton>
           }
-          title={title}
+          title={this.truncate(title,50)}
           subheader={`Updated: ${moment(lastUpdated).format('LL')}`}
         />
         <CardMedia className={classes.media} image={img} title={title} />
         <CardContent>
           <div className="row">
-            <div className="col-md-8 col-sm-6">
+            <div className="col-sm-6">
               <Typography variant="h5" color="primary">
                 $ {price}.00
               </Typography>
@@ -128,7 +127,7 @@ class InvoiceCard extends React.Component {
                 {location}
               </Typography>
             </div>
-            <div className="col-md-4 col-sm-6">
+            <div className="col-sm-6">
               {qrcode && <img className={classes.qrcode} src={qrcode} />}
             </div>
           </div>

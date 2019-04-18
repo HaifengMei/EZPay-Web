@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import InvoiceForm from "./InvoiceForm";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   layout: {
@@ -59,19 +60,21 @@ const Invoices = observer(
           <Divider className="mb-4" />
           <div className="row">
             {invoices.map(invoice => (
-              <div className="col-md-6 col-lg-4 mb-3" key={invoice.id}>
+              <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={invoice.id}>
                 <InvoiceCard invoice={invoice} />
               </div>
             ))}
           </div>
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            onClick={this.handleClickOpen}
-          >
-            <AddIcon />
-          </Fab>
+          <Tooltip title="Add New Invoice" aria-label="Add">
+            <Fab
+              color="primary"
+              aria-label="Add"
+              className={classes.fab}
+              onClick={this.handleClickOpen}
+            >
+              <AddIcon />
+            </Fab>
+          </Tooltip>
           <InvoiceForm
             open={open}
             handleClose={this.handleClose}
