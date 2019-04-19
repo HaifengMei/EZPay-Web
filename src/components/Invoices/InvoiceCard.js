@@ -66,8 +66,9 @@ class InvoiceCard extends React.Component {
   async componentDidMount() {
     try {
       const qrcode = await QRCode.toDataURL(
-        JSON.stringify(this.props.invoice.id)
+        this.props.invoice.id
       );
+      console.log(this.props.invoice.id)
       this.setState({ qrcode: qrcode });
     } catch (err) {
       console.error(err);
@@ -98,8 +99,8 @@ class InvoiceCard extends React.Component {
 
   render() {
     const { classes, invoice } = this.props;
-    const { category, title, lastUpdated, description, id, img, price, location } = invoice;
-    const { qrcode, expanded } = this.state;
+    const { category, title, lastUpdated, description, imgUrl, price, location } = invoice;
+    const { qrcode } = this.state;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -116,7 +117,7 @@ class InvoiceCard extends React.Component {
           title={this.truncate(title,25)}
           subheader={`Updated: ${moment(lastUpdated).format('LL')}`}
         />
-        <CardMedia className={classes.media} image={img} title={title} />
+        <CardMedia className={classes.media} image={imgUrl} title={title} />
         <CardContent>
           <div className="row">
             <div className="col-sm-6">
@@ -128,7 +129,7 @@ class InvoiceCard extends React.Component {
               </Typography>
             </div>
             <div className="col-sm-6">
-              {qrcode && <img className={classes.qrcode} src={qrcode} />}
+              {qrcode && <img alt= 'qrCode' className={classes.qrcode} src={qrcode} />}
             </div>
           </div>
         </CardContent>

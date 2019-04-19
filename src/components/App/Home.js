@@ -31,8 +31,14 @@ import InvoiceIcon from "@material-ui/icons/Receipt";
 import TransactionIcon from "@material-ui/icons/LocalAtm";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import InvoiceForm from "../Invoices/InvoiceForm";
-import { withRouter } from 'react-router-dom';
-import Tooltip from '@material-ui/core/Tooltip';
+import { withRouter } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
+import uiStore from "../../stores/UIStore";
+import transactionStore from "../../stores/TransactionStore";
+import userStore from "../../stores/UserStore";
+import { withFirebase } from "../Firebase";
+import Notification from "../common/Notification";
+import { observer } from "mobx-react";
 
 const drawerWidth = 240;
 
@@ -125,7 +131,7 @@ const SubFeeatures = [
     path: ROUTES.ACCOUNT,
     icon: <AccountIcon />
   }
-]
+];
 
 class HomeBase extends React.Component {
   state = {
@@ -139,6 +145,20 @@ class HomeBase extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  onListenForTransactions = () => {
+    uiStore.loading = true;
+    this.props.firebase
+      .transactions(userStore.user.id)
+      .on("child_added", snapshot => {
+        transactionStore.appendNewTransaction(snapshot.val());
+      });
+    uiStore.loading = false;
+  };
+
+  componentDidMount() {
+    this.onListenForTransactions();
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -190,15 +210,15 @@ class HomeBase extends React.Component {
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
-                  <ChevronLeftIcon />
-                )}
+                <ChevronLeftIcon />
+              )}
             </IconButton>
           </div>
           <Divider />
           <List>
             {Features.map((item, index) => (
               <ListItem component={Link} to={item.path} key={item.name}>
-                <Tooltip title={item.name} aria-label={item.name} >
+                <Tooltip title={item.name} aria-label={item.name}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                 </Tooltip>
                 <ListItemText primary={item.name} />
@@ -207,9 +227,9 @@ class HomeBase extends React.Component {
           </List>
           <Divider />
           <List>
-          {SubFeeatures.map((item, index) => (
+            {SubFeeatures.map((item, index) => (
               <ListItem component={Link} to={item.path} key={item.name}>
-                <Tooltip title={item.name} aria-label={item.name} >
+                <Tooltip title={item.name} aria-label={item.name}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                 </Tooltip>
                 <ListItemText primary={item.name} />
@@ -225,13 +245,13 @@ class HomeBase extends React.Component {
           <Route path={ROUTES.REPORTS} component={Reports} />
           <Route path={ROUTES.TRANSACTIONS} component={Transactions} />
         </main>
+        <Notification />
       </div>
     );
   }
 }
 
-const Home = withRouter(HomeBase);
-
+const Home = withRouter(withFirebase(observer(HomeBase)));
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,

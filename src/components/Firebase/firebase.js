@@ -1,13 +1,14 @@
 import app from "firebase/app";
-import config from '../../configs/firebaseConfig';
-import 'firebase/auth';
+import firebase from 'firebase';
+import config from "../../configs/firebaseConfig";
+import "firebase/auth";
 
 class Firebase {
-
   constructor() {
     app.initializeApp(config);
 
     this.auth = app.auth();
+    this.db = firebase.database()
   }
 
   // *** Auth API ***
@@ -22,8 +23,14 @@ class Firebase {
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
+
+  transactions = uid =>
+    this.db
+      .ref()
+      .child("Transaction")
+      .orderByChild("merchantId")
+      .equalTo(uid);
 }
 
 export default Firebase;

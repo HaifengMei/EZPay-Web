@@ -18,6 +18,18 @@ class UseStore {
     const res = await UserService.SignIn(id);
     UIStore.loading = false;
   }
+
+  async getMerchant(id) {
+    UIStore.loading = true;
+    const res = await UserService.GetMerchant(id);
+    UIStore.loading = false;
+    if (res.status && res.status == 1) {
+      return false;
+    } else {
+      this.user = res;
+      return true;
+    }
+  }
 }
 
 decorate(UseStore, {

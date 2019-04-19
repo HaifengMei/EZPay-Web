@@ -11,6 +11,9 @@ import TransactionStore from "../../stores/TransactionStore";
 import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import Tooltip from "@material-ui/core/Tooltip";
+import userStore from "../../stores/UserStore";
+import { withFirebase } from "../Firebase";
 
 const styles = theme => ({
   layout: {
@@ -26,9 +29,29 @@ const styles = theme => ({
   }
 });
 
-const Transactions = observer(
+const TransactionsBase = observer(
   class Transactions extends Component {
     state = { open: false };
+
+    // async componentDidMount() {
+    //   this.onListenForTransactions();
+    // }
+
+    refresh = async () => {
+      await TransactionStore.setTransactions();
+    }
+
+    // onListenForTransactions = () => {
+    //   uiStore.loading = true;
+
+    //   this.props.firebase
+    //     .transactions(userStore.user.id)
+    //     .on("child_added", snapshot => {
+    //       TransactionStore.appendNewTransaction(snapshot.val());
+    //     });
+
+    //   uiStore.loading = false;
+    // };
 
     render() {
       const { loading } = uiStore;
@@ -37,7 +60,6 @@ const Transactions = observer(
       }
       const { classes } = this.props;
       const { transactions } = TransactionStore;
-      const { open } = this.state;
       return (
         <React.Fragment>
           <CssBaseline />
@@ -50,19 +72,23 @@ const Transactions = observer(
               </div>
             ))}
           </div>
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            onClick={this.handleClickOpen}
-          >
-            <RefreshIcon />
-          </Fab>
+          <Tooltip title="Refresh Transactions" aria-label="Refresh">
+            <Fab
+              color="primary"
+              aria-label="Refresh"
+              className={classes.fab}
+              onClick={this.refresh}
+            >
+              <RefreshIcon />
+            </Fab>
+          </Tooltip>
         </React.Fragment>
       );
     }
   }
 );
+
+const Transactions = withFirebase(TransactionsBase);
 
 Transactions.propTypes = {
   classes: PropTypes.object.isRequired

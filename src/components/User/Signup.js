@@ -13,15 +13,13 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { observer } from "mobx-react";
 import UserStore from "../../stores/UserStore";
 import UIStore from "../../stores/UIStore";
 import LoaderButton from "../../components/common/LoaderButton";
 import { withFirebase } from "../../components/Firebase";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
-import { Button } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
+
 
 const styles = theme => ({
   main: {
