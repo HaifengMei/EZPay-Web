@@ -25,6 +25,7 @@ class InvoiceStore {
     const merchantId = userStore.user.id;
     const res = await InvoiceService.GetInvoices(merchantId);
     if (res.status != 1) {
+      this.invoices = [];
       Object.keys(res).forEach(key => {
         this.invoices.push(res[key]);
       });

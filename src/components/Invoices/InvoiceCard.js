@@ -66,8 +66,9 @@ class InvoiceCard extends React.Component {
   async componentDidMount() {
     try {
       const qrcode = await QRCode.toDataURL(
-        JSON.stringify(this.props.invoice.id)
+        this.props.invoice.id
       );
+      console.log(this.props.invoice.id)
       this.setState({ qrcode: qrcode });
     } catch (err) {
       console.error(err);

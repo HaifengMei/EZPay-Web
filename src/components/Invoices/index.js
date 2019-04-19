@@ -42,6 +42,7 @@ const Invoices = observer(
 
     onCreate = async invoice => {
       await InvoiceStore.addInvoice(invoice);
+      
       this.handleClose();
     };
 

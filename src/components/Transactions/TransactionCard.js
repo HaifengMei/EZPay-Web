@@ -63,7 +63,8 @@ class TransactionCard extends React.Component {
     }
     render() {
         const { classes, transaction } = this.props;
-        const { category, title, dateInserted, img, price, customerName, location } = transaction;
+        const { transactionDate, customerName, invoiceNumber } = transaction;
+        const { category, title, imgUrl, price, location } = transaction.invoice;
         return (
             <Card className={classes.card}>
                 <div className={classes.details}>
@@ -74,11 +75,14 @@ class TransactionCard extends React.Component {
                             </Avatar>
                         }
                         title={title}
-                        subheader={`Paid on: ${moment(dateInserted).format('lll')}`}
+                        subheader={`Paid on: ${moment(transactionDate).format('lll')}`}
                     />
                     <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5" color="primary">
                             {customerName}
+                        </Typography>
+                        <Typography component="h6" variant="h6">
+                            {invoiceNumber}
                         </Typography>
                         <Typography component="h6" variant="h6">
                             <b>$ {price}.00</b> at {location}
@@ -87,7 +91,7 @@ class TransactionCard extends React.Component {
                 </div>
                 <CardMedia
                     className={classes.cover}
-                    image={img}
+                    image={imgUrl}
                     title={title}
                 />
             </Card>

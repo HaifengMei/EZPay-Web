@@ -11,6 +11,7 @@ import Landing from "./Landing";
 
 import { withFirebase } from "../Firebase";
 import userStore from "../../stores/UserStore";
+
 const breakpointValues = {
   xs: 0,
   sm: 320,
