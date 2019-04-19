@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import InvoiceForm from "./InvoiceForm";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => ({
   layout: {
@@ -40,10 +40,14 @@ const Invoices = observer(
       this.setState({ open: false });
     };
 
-    onCreate = invoice => {
-      InvoiceStore.addInvoice(invoice);
+    onCreate = async invoice => {
+      await InvoiceStore.addInvoice(invoice);
       this.handleClose();
     };
+
+    async componentDidMount() {
+      await InvoiceStore.setInvoices();
+    }
 
     render() {
       const { loading } = uiStore;

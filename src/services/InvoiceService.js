@@ -1,8 +1,8 @@
 import api from "../configs/api";
 
-class UserService {
-  async Signup(email, name, paypalId, password) {
-    const url = `${api.server}/createNewMerchant`;
+class InvoiceService {
+  async AddInvoice(invoice) {
+    const url = `${api.server}/addInvoice`;
     var header = new Headers();
     header.append("Content-Type", "application/json");
     header.append("Accept", "application/json");
@@ -10,25 +10,20 @@ class UserService {
       const response = await fetch(url, {
         method: "POST",
         headers: header,
-        body: JSON.stringify({
-          email: email,
-          name: name,
-          paypalId: paypalId,
-          password: password
-        })
+        body: JSON.stringify(invoice)
       });
       const json = await response.json();
       return json;
     } catch (error) {
       return {
-        status: 1,
-        message: "Failed to create account. Try again later."
+        type: 'error',
+        message: "Failed to create new invoice. Try again later."
       };
     }
   }
 
-  async GetMerchant(id) {
-    const url = `${api.server}/getMerchant?id=${id}`;
+  async GetInvoices(id) {
+    const url = `${api.server}/getMerchantInvoices?id=${id}`;
     var header = new Headers();
     header.append("Content-Type", "application/json");
     header.append("Accept", "application/json");
@@ -42,10 +37,11 @@ class UserService {
     } catch (error) {
       return {
         status: 1,
-        message: "Failed to retrieve merchant information"
+        message: "Failed to retrieve merchant invoices"
       };
     }
   }
+
 }
 
-export default new UserService();
+export default new InvoiceService();

@@ -60,5 +60,5 @@ decorate(TransactionStore, {
     transactions: observable,
 });
 
-const userStore = new TransactionStore();
-export default userStore;
+const transactionStore = new TransactionStore();
+export default transactionStore;

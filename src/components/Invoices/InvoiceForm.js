@@ -3,24 +3,24 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import uiStore from "../../stores/UIStore";
-import * as ROUTES from "../../constants/routes";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import uiStore from "../../stores/UIStore";
+import { observer } from "mobx-react";
 
 const INITIAL_STATE = {
   title: "",
   description: "",
-  img: "",
+  imgUrl: "",
   category: "",
   location: "POS",
   price: 0,
@@ -29,6 +29,7 @@ const INITIAL_STATE = {
 const styles = theme => ({});
 const categories = ["dining", "bar", "fastfood", "cafe"];
 const locations = ["POS", "Arima", "San Fernando", "West Morings"];
+
 class InvoiceBaseForm extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +41,7 @@ class InvoiceBaseForm extends React.Component {
     const {
       title,
       description,
-      img,
+      imgUrl,
       category,
       price,
       location
@@ -48,7 +49,7 @@ class InvoiceBaseForm extends React.Component {
     const invoice = {
       title,
       description,
-      img,
+      imgUrl,
       category,
       price,
       location
@@ -69,9 +70,23 @@ class InvoiceBaseForm extends React.Component {
 
   render() {
     const { classes, open, handleClose } = this.props;
-    const { title, description, price, category, location, img, error } = this.state;
+    const { posting } = uiStore;
+    const {
+      title,
+      description,
+      price,
+      category,
+      location,
+      imgUrl,
+      error
+    } = this.state;
 
-    const isInvalid = description === "" || title === "";
+    const isInvalid =
+      description === "" ||
+      title === "" ||
+      category === "" ||
+      location === "" ||
+      imgUrl === "";
     return (
       <div>
         <Dialog
@@ -155,25 +170,28 @@ class InvoiceBaseForm extends React.Component {
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="img">Image Url</InputLabel>
+                <InputLabel htmlFor="imgUrl">Image Url</InputLabel>
                 <Input
-                  name="img"
-                  value={img}
+                  name="imgUrl"
+                  value={imgUrl}
                   onChange={this.onChange}
-                  autoComplete="img"
+                  autoComplete="imgUrl"
                 />
               </FormControl>
 
               {error && <p>{error.message}</p>}
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button type="submit" color="primary">
-                Confirm
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button
+                type="submit"
+                color="primary"
+                disabled={isInvalid || posting}
+              >
+                Submit
               </Button>
             </DialogActions>
+            {posting && <LinearProgress />}
           </form>
         </Dialog>
       </div>
@@ -181,7 +199,7 @@ class InvoiceBaseForm extends React.Component {
   }
 }
 
-const InvoiceForm = withRouter(InvoiceBaseForm);
+const InvoiceForm = withRouter(observer(InvoiceBaseForm));
 
 InvoiceForm.propTypes = {
   classes: PropTypes.object.isRequired

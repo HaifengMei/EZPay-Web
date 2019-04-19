@@ -3,6 +3,7 @@ import { action } from 'mobx'
 
 class UIStore {
     loading = false
+    posting = false
     snackbar = {
         open: false,
         message: null,
@@ -96,6 +97,7 @@ class UIStore {
 
 decorate(UIStore, {
     loading: observable,
+    posting: observable,
     snackbar: observable,
     dialog: observable,
     drawer: observable,

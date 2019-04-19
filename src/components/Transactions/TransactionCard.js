@@ -62,8 +62,8 @@ class TransactionCard extends React.Component {
         }
     }
     render() {
-        const { classes, transaction, theme } = this.props;
-        const { category, title, dateInserted, id, img, price, customerName, location } = transaction;
+        const { classes, transaction } = this.props;
+        const { category, title, dateInserted, img, price, customerName, location } = transaction;
         return (
             <Card className={classes.card}>
                 <div className={classes.details}>
@@ -81,7 +81,7 @@ class TransactionCard extends React.Component {
                             {customerName}
                         </Typography>
                         <Typography component="h6" variant="h6">
-                            <b>$ {price}.00</b>
+                            <b>$ {price}.00</b> at {location}
                         </Typography>
                     </CardContent>
                 </div>
