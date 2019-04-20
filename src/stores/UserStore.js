@@ -5,6 +5,7 @@ import UserService from "../services/UserService";
 
 class UseStore {
   user = null;
+  topSellingProducts = null;
 
   async signup(email, name, paypalId, password) {
     UIStore.loading = true;
@@ -30,10 +31,20 @@ class UseStore {
       return true;
     }
   }
+
+  async getTopSellingpProducts() {
+    UIStore.loading = true;
+    const res = await UserService.GetTopSellingProducts(this.user.id);
+    if (res.status != 1) {
+      this.topSellingProducts = res;
+    }
+    UIStore.loading = false;
+  }
 }
 
 decorate(UseStore, {
   user: observable,
+  topSellingProducts: observable,
   signin: action,
   signup: action
 });
