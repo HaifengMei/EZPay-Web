@@ -5,7 +5,7 @@ import uiStore from "./UIStore";
 
 class TransactionStore {
   transactions = [];
-  initialLoadTime = new Date().getTime();
+  initialLoadTime = 0;
 
   async setTransactions() {
     uiStore.loading = true;
@@ -23,7 +23,7 @@ class TransactionStore {
   }
 
   appendNewTransaction(transaction) {
-    if (new Date().getTime() - 2000 >= this.initialLoadTime ) {
+    if (new Date().getTime() - 5000 >= this.initialLoadTime) {
       uiStore.openSnackBar(
         `New paid invoice : ${transaction.invoiceNumber}`,
         null,
@@ -32,9 +32,6 @@ class TransactionStore {
       );
     }
     this.transactions.push(transaction);
-    this.transactions.slice().sort(function(a, b) {
-      return b.transactionDate - a.transactionDate;
-    });
   }
 }
 

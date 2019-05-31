@@ -157,6 +157,7 @@ class HomeBase extends React.Component {
   };
 
   componentDidMount() {
+    transactionStore.initialLoadTime = new Date().getTime();
     this.onListenForTransactions();
   }
 

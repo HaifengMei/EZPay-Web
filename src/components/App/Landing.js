@@ -9,6 +9,7 @@ import Signin from "../User/Signin";
 import Signup from "../User/Signup";
 import * as ROUTES from "../../constants/routes";
 import { Route } from "react-router-dom";
+import landingBG from '../../assets/img/Landing.png'
 
 const styles = theme => ({
   title: {
@@ -38,6 +39,13 @@ const styles = theme => ({
   },
   routes:{
       marginTop:'10%'
+  },
+  root:{
+    background: `url(${landingBG}) no-repeat`,
+    backgroundSize:'cover',
+    // margin:-115,
+    height:720,
+    overflow:'hidden  '
   }
 });
 
@@ -45,7 +53,7 @@ function AppAppBar(props) {
   const { classes } = props;
 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
           <div className={classes.left} />
